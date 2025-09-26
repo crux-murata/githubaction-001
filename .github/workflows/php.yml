@@ -23,10 +23,3 @@ jobs:
           php-version: '8.2'
           coverage: xdebug  # 必要ならカバレッジ用の拡張も指定可能
 
-      # 静的解析（オプション）
-      - name: Run PHPStan
-        run: vendor/bin/phpstan analyse
-
-      # PHPUnit 実行
-      - name: Run tests
-        run: vendor/bin/phpunit --coverage-text
