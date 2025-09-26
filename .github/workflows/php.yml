@@ -23,3 +23,6 @@ jobs:
           php-version: '8.2'
           coverage: xdebug  # 必要ならカバレッジ用の拡張も指定可能
 
+      # Composer インストール
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
