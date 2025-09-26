@@ -1,0 +1,44 @@
+name: PHP CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ソースコードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # PHP をセットアップ
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: xdebug  # 必要ならカバレッジ用の拡張も指定可能
+
+      # Composer のキャッシュを有効化
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      # Composer インストール
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      # 静的解析（オプション）
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse
+
+      # PHPUnit 実行
+      - name: Run tests
+        run: vendor/bin/phpunit --coverage-text
