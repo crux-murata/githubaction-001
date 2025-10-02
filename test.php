@@ -1,6 +1,6 @@
 PHP Engin Running Test
 <?php
-echo 'PHP Engin Run!!';
+echo 'Php Engin Run!!';
 phpinfo();
 
 ?>
